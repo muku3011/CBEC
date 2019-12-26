@@ -10,12 +10,17 @@
   httpPort = 31415 # Positive = fixed, 0 = ephemeral, -1 = disable HTTP server
   logInterval = '1m' # Set to '0m' to disable metrics logging
 
+# If you decide not to enable secure connections, you can ignore this section.
+[truststore]
+  path = 'path/to/truststore'
+  pathToPassword = 'secrets/truststore-password.toml'
+
 [couchbase]
-  hosts = ['${COUCH_HOST:localhost}']
+  hosts = ['${CB_HOST:localhost}']
   network = 'auto'
-  bucket = 'first-bucket'
+  bucket = '${CB_BUCKET:default}'
   metadataBucket = ''
-  username = 'first-bucket'
+  username = '${CB_USER:Admin}'
   pathToPassword = 'secrets/couchbase-password.toml'
   secureConnection = false
 
@@ -26,8 +31,8 @@
   persistencePollingInterval = '100ms'
 
 [elasticsearch]
-  hosts = ['${ELASTIC_HOST:localhost}']
-  username = 'elastic'
+  hosts = ['${ES_HOST:localhost}']
+  username = '${ES_USER:elastic}'
   pathToPassword = 'secrets/elasticsearch-password.toml'
   secureConnection = false
 
@@ -55,8 +60,8 @@
   ignore = true
 
 [[elasticsearch.type]]
-  prefix = 'doc.replicate.*'
-  index = 'first-bucket'
+  prefix = '${ES_REP_PREFIX:replicate.*}'
+  index = '${ES_INDEX:default}'
   pipeline = ''
 
 # When Elasticsearch rejects a document (usually due to a type mapping error)
